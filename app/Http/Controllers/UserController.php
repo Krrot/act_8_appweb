@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::with('role')->paginate(10);
         return view('users.index', compact('users'));
     }
 
@@ -22,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -31,27 +33,31 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'nombreUsuario' => 'required|string|max:50|unique:usuarios',
+            'contrasena' => 'required|string|min:6',
+            'nombre' => 'required|string|max:100',
+            'nombreApellido' => 'nullable|string|max:100',
+            'rolId' => 'required|exists:roles,id',
         ]);
 
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'nombreUsuario' => $request->nombreUsuario,
+            'contrasena' => Hash::make($request->contrasena),
+            'nombre' => $request->nombre,
+            'nombreApellido' => $request->nombreApellido,
+            'rolId' => $request->rolId,
+            'activo' => true,
         ]);
 
-        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        // We will just use index/edit for simplicity
-        return redirect()->route('users.index');
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -59,7 +65,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -68,21 +75,24 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
+            'nombreUsuario' => 'required|string|max:50|unique:usuarios,nombreUsuario,' . $user->id,
+            'contrasena' => 'nullable|string|min:6',
+            'nombre' => 'required|string|max:100',
+            'nombreApellido' => 'nullable|string|max:100',
+            'rolId' => 'required|exists:roles,id',
+            'activo' => 'boolean',
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        
-        $user->save();
+        $user->update([
+            'nombreUsuario' => $request->nombreUsuario,
+            'contrasena' => $request->filled('contrasena') ? Hash::make($request->contrasena) : $user->contrasena,
+            'nombre' => $request->nombre,
+            'nombreApellido' => $request->nombreApellido,
+            'rolId' => $request->rolId,
+            'activo' => $request->activo,
+        ]);
 
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     /**
@@ -91,10 +101,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if (auth()->id() === $user->id) {
-            return redirect()->route('users.index')->with('error', 'No puedes eliminarte a ti mismo.');
+            return redirect()->route('users.index')->with('error', 'You cannot deactivate yourself.');
         }
 
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
+        $user->update(['activo' => false]);
+        return redirect()->route('users.index')->with('success', 'User deactivated successfully.');
     }
 }

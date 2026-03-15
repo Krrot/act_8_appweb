@@ -14,9 +14,9 @@
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-user') }}"></use>
                     </svg>
                 </span>
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('Email Address') }}">
+                <input id="nombreUsuario" type="text" class="form-control @error('nombreUsuario') is-invalid @enderror" name="nombreUsuario" value="{{ old('nombreUsuario') }}" required autocomplete="username" autofocus placeholder="Username">
 
-                @error('email')
+                @error('nombreUsuario')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

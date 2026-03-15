@@ -5,45 +5,60 @@
     <div class="col-md-8">
         <div class="card mb-4">
             <div class="card-header bg-white fw-bold">
-                <span><svg class="icon me-2"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-user-plus') }}"></use></svg> Crear Nuevo Usuario</span>
+                <span><svg class="icon me-2"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-user-plus') }}"></use></svg> Create New User</span>
             </div>
             <div class="card-body">
                 <form action="{{ route('users.store') }}" method="POST">
                     @csrf
                     
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                        @error('name')
+                        <label for="nombreUsuario" class="form-label">Username</label>
+                        <input type="text" class="form-control @error('nombreUsuario') is-invalid @enderror" id="nombreUsuario" name="nombreUsuario" value="{{ old('nombreUsuario') }}" required>
+                        @error('nombreUsuario')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     
                     <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
-                        @error('email')
+                        <label for="nombre" class="form-label">First Name</label>
+                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+                        @error('nombre')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="nombreApellido" class="form-label">Last Name</label>
+                        <input type="text" class="form-control @error('nombreApellido') is-invalid @enderror" id="nombreApellido" name="nombreApellido" value="{{ old('nombreApellido') }}">
+                        @error('nombreApellido')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rolId" class="form-label">Role</label>
+                        <select class="form-select @error('rolId') is-invalid @enderror" id="rolId" name="rolId" required>
+                            <option value="">Select Role</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}" {{ old('rolId') == $role->id ? 'selected' : '' }}>{{ $role->nombreRol }}</option>
+                            @endforeach
+                        </select>
+                        @error('rolId')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="contrasena" class="form-label">Password</label>
+                        <input type="password" class="form-control @error('contrasena') is-invalid @enderror" id="contrasena" name="contrasena" required>
+                        @error('contrasena')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="d-flex justify-content-end">
-                        <a href="{{ route('users.index') }}" class="btn btn-secondary me-2">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar Usuario</button>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save User</button>
                     </div>
                 </form>
             </div>

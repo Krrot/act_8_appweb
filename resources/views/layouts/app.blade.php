@@ -49,14 +49,28 @@
                 <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-group') }}"></use>
-                    </svg> Usuarios
+                    </svg> Users
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/') }}">
+                <a class="nav-link {{ request()->is('clientes*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">
                     <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-speedometer') }}"></use>
-                    </svg> Materiales
+                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-people') }}"></use>
+                    </svg> Clients
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('pedidos*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-cart') }}"></use>
+                    </svg> Orders
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('pedidos-deleted') ? 'active' : '' }}" href="{{ route('pedidos.deleted') }}">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-trash') }}"></use>
+                    </svg> Deleted Orders
                 </a>
             </li>
         </ul>
@@ -96,9 +110,9 @@
                     @else
                         <li class="nav-item dropdown">
                             <a class="nav-link py-0 pe-0 d-flex align-items-center" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="me-2">{{ Auth::user()->name }}</span>
+                                <span class="me-2">{{ Auth::user()->nombre }}</span>
                                 <div class="avatar avatar-md">
-                                    <img class="avatar-img" src="{{ asset('assets/img/avatars/8.jpg') }}" alt="{{ Auth::user()->email }}">
+                                    <img class="avatar-img" src="{{ asset('assets/img/avatars/8.jpg') }}" alt="{{ Auth::user()->nombreUsuario }}">
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end pt-0">
