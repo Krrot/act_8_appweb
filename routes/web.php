@@ -12,11 +12,11 @@ Route::get('/', function () {
 })->middleware('auth');
 
 // 2. Rutas del andamiaje de Autenticación (Login, Registro, Recuperación)
-// Auth::routes(); // Commented out to disable public registration
+Auth::routes(); // Enable public registration for basic customer accounts
 Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
-// Registration disabled as per requirements: customers cannot register
+// Register route now available for basic customer signup
 
 // 3. Ruta de inicio post-autenticación
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

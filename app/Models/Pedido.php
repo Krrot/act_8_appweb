@@ -11,6 +11,8 @@ class Pedido extends Model
 
     protected $table = 'pedidos';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'numeroFactura',
         'clienteId',
