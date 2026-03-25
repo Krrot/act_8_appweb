@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorizeRole(['Admin']);
         $users = User::with('role')->paginate(10);
         return view('users.index', compact('users'));
     }
@@ -23,6 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorizeRole(['Admin']);
         $roles = Role::all();
         return view('users.create', compact('roles'));
     }
@@ -32,6 +39,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorizeRole(['Admin']);
+
         $request->validate([
             'nombreUsuario' => 'required|string|max:50|unique:usuarios',
             'contrasena' => 'required|string|min:6',
@@ -65,6 +74,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorizeRole(['Admin']);
         $roles = Role::all();
         return view('users.edit', compact('user', 'roles'));
     }
@@ -74,6 +84,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorizeRole(['Admin']);
+
         $request->validate([
             'nombreUsuario' => 'required|string|max:50|unique:usuarios,nombreUsuario,' . $user->id,
             'contrasena' => 'nullable|string|min:6',
@@ -100,6 +112,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorizeRole(['Admin']);
+
         if (auth()->id() === $user->id) {
             return redirect()->route('users.index')->with('error', 'You cannot deactivate yourself.');
         }

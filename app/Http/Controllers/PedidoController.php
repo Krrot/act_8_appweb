@@ -11,7 +11,18 @@ class PedidoController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorizeRole(['Admin', 'Sales', 'Warehouse', 'Route']);
+
+        $userRole = auth()->user()->role->nombreRol;
         $query = Pedido::with('cliente', 'usuario');
+
+        if ($userRole === 'Sales') {
+            $query->where('usuarioId', auth()->id());
+        } elseif ($userRole === 'Warehouse') {
+            $query->whereIn('estadoId', [1, 2]);
+        } elseif ($userRole === 'Route') {
+            $query->where('estadoId', 3);
+        }
 
         if ($request->filled('numeroFactura')) {
             $query->where('numeroFactura', 'like', '%' . $request->numeroFactura . '%');
@@ -38,6 +49,8 @@ class PedidoController extends Controller
 
     public function create()
     {
+        $this->authorizeRole(['Admin', 'Sales']);
+
         $clientes = Cliente::all();
         $usuarios = User::all();
         return view('pedidos.create', compact('clientes', 'usuarios'));
@@ -82,6 +95,8 @@ class PedidoController extends Controller
 
     public function update(Request $request, Pedido $pedido)
     {
+        $this->authorizeRole(['Admin', 'Warehouse', 'Route']);
+
         $request->validate([
             'numeroFactura' => 'required|string|max:50',
             'clienteId' => 'required|exists:clientes,id',
@@ -101,18 +116,21 @@ class PedidoController extends Controller
 
     public function destroy(Pedido $pedido)
     {
+        $this->authorizeRole(['Admin']);
         $pedido->update(['activo' => false]);
         return redirect()->route('pedidos.index')->with('success', 'Order deactivated successfully.');
     }
 
     public function deleted()
     {
+        $this->authorizeRole(['Admin', 'Sales']);
         $pedidos = Pedido::with('cliente', 'usuario')->where('activo', false)->paginate(10);
         return view('pedidos.deleted', compact('pedidos'));
     }
 
     public function restore($id)
     {
+        $this->authorizeRole(['Admin', 'Sales']);
         $pedido = Pedido::findOrFail($id);
         $pedido->update(['activo' => true]);
         return redirect()->route('pedidos.deleted')->with('success', 'Order restored successfully.');

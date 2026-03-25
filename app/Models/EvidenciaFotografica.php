@@ -17,6 +17,8 @@ class EvidenciaFotografica extends Model
         'tipo',
         'urlFoto',
         'fechaSubida',
+        'descripcion',
+        'rutaImagen',
     ];
 
     public function pedido()

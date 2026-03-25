@@ -17,12 +17,22 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application dashboard with role-driven landing pages.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        return view('home');
+        $user = auth()->user();
+
+        if (! $user || ! $user->role) {
+            return view('home');
+        }
+
+        if ($user->role->nombreRol === 'Customer') {
+            return redirect()->route('customer.index');
+        }
+
+        return redirect()->route('role.dashboard');
     }
 }

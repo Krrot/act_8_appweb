@@ -8,20 +8,29 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+        $this->authorizeRole(['Admin', 'Sales']);
         $clientes = Cliente::with('direccion')->paginate(10);
         return view('clientes.index', compact('clientes'));
     }
 
     public function create()
     {
+        $this->authorizeRole(['Admin', 'Sales']);
         $direcciones = Direccion::all();
         return view('clientes.create', compact('direcciones'));
     }
 
     public function store(Request $request)
     {
+        $this->authorizeRole(['Admin', 'Sales']);
+
         $request->validate([
             'numeroCliente' => 'required|string|max:50|unique:clientes',
             'telefono' => 'nullable|string|max:20',
@@ -48,12 +57,15 @@ class ClienteController extends Controller
 
     public function edit(Cliente $cliente)
     {
+        $this->authorizeRole(['Admin', 'Sales']);
         $direcciones = Direccion::all();
         return view('clientes.edit', compact('cliente', 'direcciones'));
     }
 
     public function update(Request $request, Cliente $cliente)
     {
+        $this->authorizeRole(['Admin', 'Sales']);
+
         $request->validate([
             'numeroCliente' => 'required|string|max:50|unique:clientes,numeroCliente,' . $cliente->id,
             'telefono' => 'nullable|string|max:20',
@@ -71,6 +83,7 @@ class ClienteController extends Controller
 
     public function destroy(Cliente $cliente)
     {
+        $this->authorizeRole(['Admin']);
         $cliente->update(['activo' => false]);
         return redirect()->route('clientes.index')->with('success', 'Client deactivated successfully.');
     }

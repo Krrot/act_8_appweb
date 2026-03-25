@@ -45,6 +45,7 @@
                     </svg> Dashboard
                 </a>
             </li>
+            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin']))
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                     <svg class="nav-icon">
@@ -52,6 +53,8 @@
                     </svg> Users
                 </a>
             </li>
+            @endif
+            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Sales']))
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('clientes*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">
                     <svg class="nav-icon">
@@ -59,6 +62,8 @@
                     </svg> Clients
                 </a>
             </li>
+            @endif
+            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Sales', 'Warehouse', 'Route']))
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('pedidos*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}">
                     <svg class="nav-icon">
@@ -66,6 +71,8 @@
                     </svg> Orders
                 </a>
             </li>
+            @endif
+            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Sales']))
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('pedidos-deleted') ? 'active' : '' }}" href="{{ route('pedidos.deleted') }}">
                     <svg class="nav-icon">
@@ -73,6 +80,25 @@
                     </svg> Deleted Orders
                 </a>
             </li>
+            @endif
+            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Warehouse', 'Purchasing']))
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('materiales*') ? 'active' : '' }}" href="{{ route('materiales.index') }}">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-box') }}"></use>
+                    </svg> Materials
+                </a>
+            </li>
+            @endif
+            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Route']))
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('evidencias*') ? 'active' : '' }}" href="{{ route('evidencias.index') }}">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-camera') }}"></use>
+                    </svg> Evidences
+                </a>
+            </li>
+            @endif
         </ul>
         
         <div class="sidebar-footer border-top d-none d-md-flex">     
@@ -144,7 +170,7 @@
             <div class="container-fluid px-4">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb my-0">
-                        <li class="breadcrumb-item active"><span>Dashboard</span></li>
+                        <li class="breadcrumb-item active"><span>Panel de {{ auth()->check() ? auth()->user()->role->nombreRol : 'Usuario' }}</span></li>
                     </ol>
                 </nav>
             </div>

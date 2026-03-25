@@ -16,6 +16,9 @@ class Material extends Model
         'descripcionMaterial',
         'precioUnitario',
         'cantidadMinima',
+        'nombre',
+        'descripcion',
+        'stock',
     ];
 
     public function detallesFactura()

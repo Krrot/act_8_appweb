@@ -8,6 +8,16 @@
 </head>
 <body class="bg-light">
     <div class="container py-5">
+        @if(auth()->check())
+        <div class="row justify-content-end mb-3">
+            <div class="col-auto">
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-secondary">Logout</button>
+                </form>
+            </div>
+        </div>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow">

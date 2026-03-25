@@ -9,4 +9,15 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    protected function authorizeRole(array $roles)
+    {
+        $user = auth()->user();
+
+        if (! $user || ! $user->role || ! in_array($user->role->nombreRol, $roles)) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return true;
+    }
 }
