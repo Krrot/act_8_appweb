@@ -17,7 +17,7 @@ Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout
 // Register route now available for basic customer signup
 
 // 3. Ruta de inicio post-autenticación
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->nndex'])->name('home');
 
 // 4. Resource Routes for Users
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
