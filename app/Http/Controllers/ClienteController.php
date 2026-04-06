@@ -52,13 +52,18 @@ class ClienteController extends Controller
 
     public function show(Cliente $cliente)
     {
+        $this->authorizeRole(['Admin', 'Sales']);
+        $cliente->load('direccion');
+
         return view('clientes.show', compact('cliente'));
     }
 
     public function edit(Cliente $cliente)
     {
         $this->authorizeRole(['Admin', 'Sales']);
+        $cliente->load('direccion');
         $direcciones = Direccion::all();
+
         return view('clientes.edit', compact('cliente', 'direcciones'));
     }
 

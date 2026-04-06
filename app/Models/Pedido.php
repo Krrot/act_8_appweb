@@ -24,6 +24,12 @@ class Pedido extends Model
         'creacionEn',
     ];
 
+    protected $casts = [
+        'fechaPedido' => 'datetime',
+        'creacionEn' => 'datetime',
+        'activo' => 'boolean',
+    ];
+
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'clienteId');
