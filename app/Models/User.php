@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'rolId');
     }
+
+    public function getNombreCompletoAttribute()
+    {
+        return $this->nombre . ' ' . $this->nombreApellido;
+    }
 }

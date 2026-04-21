@@ -59,15 +59,19 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'numeroFactura' => 'required|string|max:50',
             'clienteId' => 'required|exists:clientes,id',
             'fechaPedido' => 'required|date',
             'notas' => 'nullable|string',
             'usuarioId' => 'required|exists:usuarios,id',
         ]);
 
+        // Generate consecutive invoice number
+        $lastPedido = Pedido::orderBy('id', 'desc')->first();
+        $nextNumber = $lastPedido ? intval(substr($lastPedido->numeroFactura, 3)) + 1 : 1;
+        $numeroFactura = 'INV' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
         Pedido::create([
-            'numeroFactura' => $request->numeroFactura,
+            'numeroFactura' => $numeroFactura,
             'clienteId' => $request->clienteId,
             'fechaPedido' => $request->fechaPedido,
             'notas' => $request->notas,

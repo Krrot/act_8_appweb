@@ -11,7 +11,6 @@
             <li><a href="{{ route('clientes.index') }}">Gestión de Clientes</a></li>
             <li><a href="{{ route('pedidos.index') }}">Gestión de Pedidos</a></li>
             <li><a href="{{ route('materiales.index') }}">Gestión de Materiales</a></li>
-            <li><a href="{{ route('evidencias.index') }}">Gestión de Evidencias</a></li>
         @endif
 
         @if(in_array($role, ['Sales']))
@@ -29,8 +28,7 @@
         @endif
 
         @if(in_array($role, ['Route']))
-            <li><a href="{{ route('evidencias.index') }}">Registrar evidencias de entregas</a></li>
-            <li><a href="{{ route('pedidos.index') }}">Marcar pedidos como entregados</a></li>
+            <li><a href="{{ route('pedidos.index') }}">Registrar evidencias de entregas y marcar pedidos como entregados</a></li>
         @endif
 
         @if(in_array($role, ['Customer']))

@@ -11,6 +11,8 @@ class EvidenciaFotografica extends Model
 
     protected $table = 'evidenciasfotograficas';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'pedidoId',
         'usuarioId',
@@ -18,8 +20,14 @@ class EvidenciaFotografica extends Model
         'urlFoto',
         'fechaSubida',
         'descripcion',
-        'rutaImagen',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'fechaSubida' => 'datetime',
+        ];
+    }
 
     public function pedido()
     {

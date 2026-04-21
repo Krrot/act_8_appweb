@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pedidoId')->constrained('pedidos');
             $table->foreignId('usuarioId')->constrained('usuarios');
-            $table->enum('tipo',['ENTREGA','DAÑO','INSTALACION']);
+            $table->enum('tipo',['LOADED','DELIVERED','DAMAGE','INSTALLATION']);
             $table->string('urlFoto',255)->nullable();
             $table->dateTime('fechaSubida')->nullable();
         });

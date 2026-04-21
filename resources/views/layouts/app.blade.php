@@ -90,15 +90,6 @@
                 </a>
             </li>
             @endif
-            @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Route']))
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('evidencias*') ? 'active' : '' }}" href="{{ route('evidencias.index') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-camera') }}"></use>
-                    </svg> Evidences
-                </a>
-            </li>
-            @endif
         </ul>
         
         <div class="sidebar-footer border-top d-none d-md-flex">     

@@ -52,6 +52,7 @@
                                 <th>Customer</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                <th>Evidence</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -73,6 +74,18 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="{{ route('pedidos.evidencias.index', $pedido) }}" class="btn btn-sm btn-secondary text-white">
+                                                <svg class="icon me-1"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-image') }}"></use></svg> View
+                                            </a>
+                                            @if(auth()->user()->role->nombreRol == 'Route' || auth()->user()->role->nombreRol == 'Admin')
+                                                <a href="{{ route('pedidos.evidencias.create', $pedido) }}" class="btn btn-sm btn-success text-white">
+                                                    <svg class="icon me-1"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-plus') }}"></use></svg> Add
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('pedidos.show', $pedido) }}" class="btn btn-sm btn-info text-white">
                                                 <svg class="icon me-1"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-eye') }}"></use></svg> View
@@ -92,7 +105,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No orders found.</td>
+                                    <td colspan="7" class="text-center">No orders found.</td>
                                 </tr>
                             @endforelse
                         </tbody>

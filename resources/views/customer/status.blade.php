@@ -58,12 +58,12 @@
                             </div>
                         </div>
                         
-                        @if($pedido->estadoId == 4 && $pedido->evidencias->where('tipo', 'ENTREGA')->count() > 0)
+                        @if($pedido->estadoId == 4 && $pedido->evidencias->where('tipo', 'DELIVERED')->count() > 0)
                         <div class="row">
                             <div class="col-12">
                                 <h5>Delivery Evidence</h5>
                                 <div class="row">
-                                    @foreach($pedido->evidencias->where('tipo', 'ENTREGA') as $evidencia)
+                                    @foreach($pedido->evidencias->where('tipo', 'DELIVERED') as $evidencia)
                                         <div class="col-md-6 mb-3">
                                             <div class="card">
                                                 <div class="card-body">

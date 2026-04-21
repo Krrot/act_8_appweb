@@ -17,7 +17,7 @@ Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout
 // Register route now available for basic customer signup
 
 // 3. Ruta de inicio post-autenticación
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->nndex'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // 4. Resource Routes for Users
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
@@ -33,8 +33,16 @@ Route::resource('clientes', App\Http\Controllers\ClienteController::class)->midd
 // Role dashboards and actions
 Route::get('/role-dashboard', [App\Http\Controllers\RoleController::class, 'dashboard'])->name('role.dashboard')->middleware('auth');
 
-// Route worker evidence
-Route::resource('evidencias', App\Http\Controllers\EvidenciaController::class)->middleware('auth');
+// Route worker evidence (nested under orders)
+Route::prefix('pedidos/{pedido}/evidencias')->middleware('auth')->group(function () {
+    Route::get('/', [App\Http\Controllers\EvidenciaController::class, 'index'])->name('pedidos.evidencias.index');
+    Route::get('/create', [App\Http\Controllers\EvidenciaController::class, 'create'])->name('pedidos.evidencias.create');
+    Route::post('/', [App\Http\Controllers\EvidenciaController::class, 'store'])->name('pedidos.evidencias.store');
+    Route::get('/{evidencia}', [App\Http\Controllers\EvidenciaController::class, 'show'])->name('pedidos.evidencias.show');
+    Route::get('/{evidencia}/edit', [App\Http\Controllers\EvidenciaController::class, 'edit'])->name('pedidos.evidencias.edit');
+    Route::put('/{evidencia}', [App\Http\Controllers\EvidenciaController::class, 'update'])->name('pedidos.evidencias.update');
+    Route::delete('/{evidencia}', [App\Http\Controllers\EvidenciaController::class, 'destroy'])->name('pedidos.evidencias.destroy');
+});
 
 // Warehouse/Purchasing material management
 Route::resource('materiales', App\Http\Controllers\MaterialController::class)->middleware('auth');

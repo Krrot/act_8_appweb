@@ -24,8 +24,10 @@ class DatabaseSeeder extends Seeder
             'contrasena' => Hash::make('admin123'),
             'nombre' => 'Administrator',
             'nombreApellido' => '',
-            'rolId' => 1, // Sales role as default admin
+            'rolId' => 1, // Admin role
             'activo' => true,
         ]);
+
+        $this->call(TestDataSeeder::class);
     }
 }
