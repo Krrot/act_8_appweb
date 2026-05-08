@@ -42,7 +42,7 @@
                 <a class="nav-link" href="{{ url('/') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-speedometer') }}"></use>
-                    </svg> Dashboard
+                    </svg> {{ __('dashboard') }}
                 </a>
             </li>
             @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin']))
@@ -50,7 +50,7 @@
                 <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-group') }}"></use>
-                    </svg> Users
+                    </svg> {{ __('users') }}
                 </a>
             </li>
             @endif
@@ -59,7 +59,7 @@
                 <a class="nav-link {{ request()->is('clientes*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-people') }}"></use>
-                    </svg> Clients
+                    </svg> {{ __('clients') }}
                 </a>
             </li>
             @endif
@@ -68,7 +68,7 @@
                 <a class="nav-link {{ request()->is('pedidos*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-cart') }}"></use>
-                    </svg> Orders
+                    </svg> {{ __('orders') }}
                 </a>
             </li>
             @endif
@@ -77,7 +77,7 @@
                 <a class="nav-link {{ request()->is('pedidos-deleted') ? 'active' : '' }}" href="{{ route('pedidos.deleted') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-trash') }}"></use>
-                    </svg> Deleted Orders
+                    </svg> {{ __('deleted_orders') }}
                 </a>
             </li>
             @endif
@@ -86,7 +86,7 @@
                 <a class="nav-link {{ request()->is('materiales*') ? 'active' : '' }}" href="{{ route('materiales.index') }}">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-box') }}"></use>
-                    </svg> Materials
+                    </svg> {{ __('materials') }}
                 </a>
             </li>
             @endif

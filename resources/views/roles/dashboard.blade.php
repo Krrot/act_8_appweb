@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1>Role Dashboard</h1>
-    <p>Bienvenido, <strong>{{ auth()->user()->nombreCompleto }}</strong>. Tu rol: <strong>{{ $role }}</strong>.</p>
+    <h1>{{ __('role_dashboard') }}</h1>
+    <p>Bienvenido, <strong>{{ auth()->user()->nombreCompleto }}</strong>. Tu rol: <strong>{{ __($role) }}</strong>.</p>
 
     <ul>
         @if(in_array($role, ['Admin']))

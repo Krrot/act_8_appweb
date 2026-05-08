@@ -14,14 +14,16 @@ class PedidoController extends Controller
         $this->authorizeRole(['Admin', 'Sales', 'Warehouse', 'Route']);
 
         $userRole = auth()->user()->role->nombreRol;
-        $query = Pedido::with('cliente', 'usuario');
+        $query = Pedido::with('cliente', 'usuario', 'routeUsuario');
 
         if ($userRole === 'Sales') {
             $query->where('usuarioId', auth()->id());
         } elseif ($userRole === 'Warehouse') {
             $query->whereIn('estadoId', [1, 2]);
         } elseif ($userRole === 'Route') {
-            $query->where('estadoId', 3);
+            $query->where(function ($q) {
+                $q->where('routeUsuarioId', auth()->id());
+            });
         }
 
         if ($request->filled('numeroFactura')) {
@@ -52,17 +54,26 @@ class PedidoController extends Controller
         $this->authorizeRole(['Admin', 'Sales']);
 
         $clientes = Cliente::all();
-        $usuarios = User::all();
-        return view('pedidos.create', compact('clientes', 'usuarios'));
+        $salesUsuarios = User::whereHas('role', function ($query) {
+            $query->whereIn('nombreRol', ['Sales', 'Admin']);
+        })->get();
+        $routeUsuarios = User::whereHas('role', function ($query) {
+            $query->whereIn('nombreRol', ['Route', 'Admin']);
+        })->get();
+
+        return view('pedidos.create', compact('clientes', 'salesUsuarios', 'routeUsuarios'));
     }
 
     public function store(Request $request)
     {
+        $this->authorizeRole(['Admin', 'Sales']);
+
         $request->validate([
             'clienteId' => 'required|exists:clientes,id',
             'fechaPedido' => 'required|date',
             'notas' => 'nullable|string',
             'usuarioId' => 'required|exists:usuarios,id',
+            'routeUsuarioId' => 'nullable|exists:usuarios,id',
         ]);
 
         // Generate consecutive invoice number
@@ -77,6 +88,7 @@ class PedidoController extends Controller
             'notas' => $request->notas,
             'estadoId' => 1, // Ordered
             'usuarioId' => $request->usuarioId,
+            'routeUsuarioId' => $request->routeUsuarioId,
             'activo' => true,
             'creacionEn' => now(),
         ]);
@@ -92,9 +104,17 @@ class PedidoController extends Controller
 
     public function edit(Pedido $pedido)
     {
+        $this->authorizeRole(['Admin', 'Warehouse', 'Route']);
+
         $clientes = Cliente::all();
-        $usuarios = User::all();
-        return view('pedidos.edit', compact('pedido', 'clientes', 'usuarios'));
+        $salesUsuarios = User::whereHas('role', function ($query) {
+            $query->whereIn('nombreRol', ['Sales', 'Admin']);
+        })->get();
+        $routeUsuarios = User::whereHas('role', function ($query) {
+            $query->whereIn('nombreRol', ['Route', 'Admin']);
+        })->get();
+
+        return view('pedidos.edit', compact('pedido', 'clientes', 'salesUsuarios', 'routeUsuarios'));
     }
 
     public function update(Request $request, Pedido $pedido)
@@ -108,11 +128,12 @@ class PedidoController extends Controller
             'notas' => 'nullable|string',
             'estadoId' => 'required|integer|min:1|max:4',
             'usuarioId' => 'required|exists:usuarios,id',
+            'routeUsuarioId' => 'nullable|exists:usuarios,id',
             'activo' => 'boolean',
         ]);
 
         $pedido->update($request->only([
-            'numeroFactura', 'clienteId', 'fechaPedido', 'notas', 'estadoId', 'usuarioId', 'activo'
+            'numeroFactura', 'clienteId', 'fechaPedido', 'notas', 'estadoId', 'usuarioId', 'routeUsuarioId', 'activo'
         ]));
 
         return redirect()->route('pedidos.index')->with('success', 'Order updated successfully.');

@@ -5,28 +5,28 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
-                <span><svg class="icon me-2"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-cart') }}"></use></svg> Order Details</span>
-                <a href="{{ route('pedidos.edit', $pedido) }}" class="btn btn-sm btn-warning text-white">Edit</a>
+                <span><svg class="icon me-2"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-cart') }}"></use></svg> {{ __('order_details') }}</span>
+                <a href="{{ route('pedidos.edit', $pedido) }}" class="btn btn-sm btn-warning text-white">{{ __('edit') }}</a>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5>Order Information</h5>
+                        <h5>{{ __('order_information') }}</h5>
                         <table class="table table-borderless">
                             <tr>
-                                <th>Order ID:</th>
+                                <th>{{ __('order_id') }}:</th>
                                 <td>{{ $pedido->id }}</td>
                             </tr>
                             <tr>
-                                <th>Invoice Number:</th>
+                                <th>{{ __('invoice_number') }}:</th>
                                 <td>{{ $pedido->numeroFactura }}</td>
                             </tr>
                             <tr>
-                                <th>Order Date:</th>
+                                <th>{{ __('order_date') }}:</th>
                                 <td>{{ $pedido->fechaPedido ? $pedido->fechaPedido->format('d/m/Y') : 'N/A' }}</td>
                             </tr>
                             <tr>
-                                <th>Status:</th>
+                                <th>{{ __('status') }}:</th>
                                 <td>
                                     <span class="badge 
                                         @if($pedido->estadoId == 1) bg-warning
@@ -39,32 +39,36 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Salesperson:</th>
+                                <th>{{ __('salesperson') }}:</th>
                                 <td>{{ $pedido->usuario->nombre }} {{ $pedido->usuario->nombreApellido }}</td>
                             </tr>
                             <tr>
-                                <th>Active:</th>
-                                <td>{{ $pedido->activo ? 'Yes' : 'No' }}</td>
+                                <th>{{ __('route_user') }}:</th>
+                                <td>{{ $pedido->routeUsuario ? $pedido->routeUsuario->nombre . ' ' . $pedido->routeUsuario->nombreApellido : __('not_assigned') }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ __('active') }}:</th>
+                                <td>{{ $pedido->activo ? __('yes') : __('no') }}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <h5>Customer Information</h5>
+                        <h5>{{ __('customer_information') }}</h5>
                         <table class="table table-borderless">
                             <tr>
-                                <th>Customer Number:</th>
+                                <th>{{ __('customer_number') }}:</th>
                                 <td>{{ $pedido->cliente->numeroCliente }}</td>
                             </tr>
                             <tr>
-                                <th>Phone:</th>
+                                <th>{{ __('phone') }}:</th>
                                 <td>{{ $pedido->cliente->telefono }}</td>
                             </tr>
                             <tr>
-                                <th>Email:</th>
+                                <th>{{ __('email') }}:</th>
                                 <td>{{ $pedido->cliente->correoElectronico }}</td>
                             </tr>
                             <tr>
-                                <th>Address:</th>
+                                <th>{{ __('address') }}:</th>
                                 <td>
                                     @if($pedido->cliente->direccion)
                                         {{ $pedido->cliente->direccion->calle }} {{ $pedido->cliente->direccion->numeroExterior }}
@@ -80,23 +84,23 @@
                 
                 <div class="row">
                     <div class="col-12">
-                        <h5>Notes</h5>
-                        <p>{{ $pedido->notas ?: 'No notes' }}</p>
+                        <h5>{{ __('notes') }}</h5>
+                        <p>{{ $pedido->notas ?: __('no_notes') }}</p>
                     </div>
                 </div>
                 
                 @if($pedido->evidencias->count() > 0)
                 <div class="row">
                     <div class="col-12">
-                        <h5>Evidence Photos</h5>
+                        <h5>{{ __('evidence_photos') }}</h5>
                         <div class="row">
                             @foreach($pedido->evidencias as $evidencia)
                                 <div class="col-md-4 mb-3">
                                     <div class="card">
                                         <div class="card-body">
                                             <h6>{{ ucfirst(strtolower($evidencia->tipo)) }}</h6>
-                                            <p>Uploaded by: {{ $evidencia->usuario->nombre }}</p>
-                                            <p>Date: {{ $evidencia->fechaSubida ? $evidencia->fechaSubida->format('d/m/Y H:i') : 'N/A' }}</p>
+                                            <p>{{ __('uploaded_by') }}: {{ $evidencia->usuario->nombre }}</p>
+                                            <p>{{ __('date') }}: {{ $evidencia->fechaSubida ? $evidencia->fechaSubida->format('d/m/Y H:i') : 'N/A' }}</p>
                                             @if($evidencia->urlFoto)
                                                 <img src="{{ asset('storage/' . $evidencia->urlFoto) }}" class="img-fluid" alt="Evidence">
                                             @endif

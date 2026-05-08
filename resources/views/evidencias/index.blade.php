@@ -7,12 +7,12 @@
             <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center">
                 <span>
                     <svg class="icon me-2"><use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-image') }}"></use></svg>
-                    Evidence for Order #{{ $pedido->numeroFactura }}
+                    {{ __('evidence_for_order') }} #{{ $pedido->numeroFactura }}
                 </span>
                 <div>
-                    <a href="{{ route('pedidos.index') }}" class="btn btn-sm btn-outline-secondary me-2">Back to Orders</a>
+                    <a href="{{ route('pedidos.index') }}" class="btn btn-sm btn-outline-secondary me-2">{{ __('back_to_orders') }}</a>
                     @if(auth()->user()->role->nombreRol == 'Route' || auth()->user()->role->nombreRol == 'Admin')
-                        <a href="{{ route('pedidos.evidencias.create', $pedido) }}" class="btn btn-sm btn-primary">Add Evidence</a>
+                        <a href="{{ route('pedidos.evidencias.create', $pedido) }}" class="btn btn-sm btn-primary">{{ __('add_evidence') }}</a>
                     @endif
                 </div>
             </div>
@@ -28,12 +28,12 @@
                     <table class="table table-hover table-striped">
                         <thead class="table-light">
                             <tr>
-                                <th>ID</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>Photo</th>
-                                <th>Uploaded By</th>
-                                <th>Date</th>
+                                <th>{{ __('id') }}</th>
+                                <th>{{ __('type') }}</th>
+                                <th>{{ __('description') }}</th>
+                                <th>{{ __('photo') }}</th>
+                                <th>{{ __('uploaded_by') }}</th>
+                                <th>{{ __('date') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,7 +55,7 @@
                                         @if($evidencia->urlFoto)
                                             <img src="{{ asset('storage/' . $evidencia->urlFoto) }}" alt="Evidence" class="img-thumbnail" style="max-width: 100px;">
                                         @else
-                                            No photo
+                                            {{ __('no_photo') }}
                                         @endif
                                     </td>
                                     <td>{{ $evidencia->usuario->nombre ?? 'N/A' }}</td>
@@ -63,7 +63,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No evidence found for this order.</td>
+                                    <td colspan="6" class="text-center">{{ __('no_evidence_found') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>

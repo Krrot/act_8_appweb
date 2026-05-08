@@ -20,6 +20,7 @@ class Pedido extends Model
         'notas',
         'estadoId',
         'usuarioId',
+        'routeUsuarioId',
         'activo',
         'creacionEn',
     ];
@@ -40,6 +41,11 @@ class Pedido extends Model
         return $this->belongsTo(User::class, 'usuarioId');
     }
 
+    public function routeUsuario()
+    {
+        return $this->belongsTo(User::class, 'routeUsuarioId');
+    }
+
     public function evidencias()
     {
         return $this->hasMany(EvidenciaFotografica::class, 'pedidoId');
@@ -48,10 +54,10 @@ class Pedido extends Model
     public function getStatusAttribute()
     {
         $statuses = [
-            1 => 'Ordered',
-            2 => 'In process',
-            3 => 'In route',
-            4 => 'Delivered',
+            1 => __('ordered'),
+            2 => __('in_process'),
+            3 => __('in_route'),
+            4 => __('delivered'),
         ];
         return $statuses[$this->estadoId] ?? 'Unknown';
     }
