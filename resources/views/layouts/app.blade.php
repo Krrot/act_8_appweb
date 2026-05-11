@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <base href="./">
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -40,53 +40,41 @@
             <!-- Nav content -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-speedometer') }}"></use>
-                    </svg> {{ __('dashboard') }}
+                    {{ __('dashboard') }}
                 </a>
             </li>
             @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin']))
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-group') }}"></use>
-                    </svg> {{ __('users') }}
+                <a class="nav-link" href="/users">
+                    Usuarios
                 </a>
             </li>
             @endif
             @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Sales']))
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('clientes*') ? 'active' : '' }}" href="{{ route('clientes.index') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-people') }}"></use>
-                    </svg> {{ __('clients') }}
+                <a class="nav-link" href="/clientes">
+                    <i class="nav-icon cil-people"></i> Clientes
                 </a>
             </li>
             @endif
             @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Sales', 'Warehouse', 'Route']))
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('pedidos*') ? 'active' : '' }}" href="{{ route('pedidos.index') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-cart') }}"></use>
-                    </svg> {{ __('orders') }}
+                <a class="nav-link" href="/pedidos">
+                    <i class="nav-icon cil-cart"></i> Pedidos
                 </a>
             </li>
             @endif
             @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Sales']))
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('pedidos-deleted') ? 'active' : '' }}" href="{{ route('pedidos.deleted') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-trash') }}"></use>
-                    </svg> {{ __('deleted_orders') }}
+                <a class="nav-link" href="/pedidos-deleted">
+                    Pedidos Eliminados
                 </a>
             </li>
             @endif
             @if(auth()->check() && in_array(auth()->user()->role->nombreRol, ['Admin', 'Warehouse', 'Purchasing']))
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('materiales*') ? 'active' : '' }}" href="{{ route('materiales.index') }}">
-                    <svg class="nav-icon">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-box') }}"></use>
-                    </svg> {{ __('materials') }}
+                <a class="nav-link" href="/materiales">
+                    Materiales
                 </a>
             </li>
             @endif
@@ -103,7 +91,7 @@
             <div class="container-fluid border-bottom px-4">
                 <button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" style="margin-inline-start: -14px;">
                     <svg class="icon icon-lg">
-                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-menu') }}"></use>
+                        <use xlink:href="{{ asset('assets/icons/menu.svg') }}"></use>
                     </svg>
                 </button>
                 
@@ -137,7 +125,7 @@
                                 
                                 <a class="dropdown-item" href="#">
                                     <svg class="icon me-2">
-                                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-user') }}"></use>
+                                        <use xlink:href="{{ asset('assets/icons/user.svg') }}"></use>
                                     </svg> Perfil
                                 </a>
                                 
@@ -146,7 +134,7 @@
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <svg class="icon me-2">
-                                        <use xlink:href="{{ asset('assets/icons/sprites/free.svg#cil-account-logout') }}"></use>
+                                        <use xlink:href="{{ asset('assets/icons/account-logout.svg') }}"></use>
                                     </svg> {{ __('Logout') }}
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
