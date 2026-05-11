@@ -46,10 +46,8 @@ RUN npm run build
 
 # Run optimizations
 RUN composer install --no-dev --optimize-autoloader
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
 
 EXPOSE ${PORT}
 
 CMD ["apache2-foreground"]
+
